@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "6a2debb7-9ead-47cd-acd2-315d1724955c",
+		"name": "RunningRace",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40444757"
+	},
+	"item": [
+		{
+			"name": "Get one runner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is within an acceptable range\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"RunnerId is a non-negative integer\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.runnerId).to.be.a('number');\r",
+							"    pm.expect(responseData.runnerId).to.be.at.least(0, \"RunnerId should be a non-negative integer\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Runner details validation\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    \r",
+							"    pm.expect(responseData.runnerName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Runner name should be a non-empty string\");\r",
+							"    \r",
+							"    pm.expect(responseData.age).to.be.a('number').and.to.be.at.least(0, \"Age should be a non-negative integer\");\r",
+							"    \r",
+							"    pm.expect(responseData.gender).to.be.a('string', \"Gender should be a string\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/runner/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"runner",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all runners",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(runner) {\r",
+							"        pm.expect(runner.runnerId).to.exist;\r",
+							"        pm.expect(runner.runnerName).to.exist;\r",
+							"        pm.expect(runner.age).to.exist;\r",
+							"        pm.expect(runner.gender).to.exist;\r",
+							"        pm.expect(runner.scores).to.exist;\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"RunnerName is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(runner) {\r",
+							"        pm.expect(runner.runnerName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"RunnerName should not be empty\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Scores array is present and contains the expected number of elements\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    pm.expect(responseData).to.have.lengthOf.at.least(1, \"Scores array should contain at least one element\");\r",
+							"    responseData.forEach(function(runner) {\r",
+							"        pm.expect(runner.scores).to.exist.and.to.be.an('array');\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/runner",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"runner"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

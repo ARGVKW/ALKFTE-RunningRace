@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Races</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>All Races</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Distance (km)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="race : ${races}">
+            <td th:text="${race.raceId}"></td>
+            <td th:text="${race.raceName}"></td>
+            <td th:text="${race.location}"></td>
+            <td th:text="${race.distanceKm}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

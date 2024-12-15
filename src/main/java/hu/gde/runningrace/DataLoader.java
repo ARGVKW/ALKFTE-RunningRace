@@ -24,14 +24,16 @@ public class DataLoader implements CommandLineRunner {
         // Create race entities
 
         RaceEntity raceEntity1 = new RaceEntity();
-        raceEntity1.setName("Budapest Marathon");
+        raceEntity1.setRaceName("Budapest Marathon");
+        raceEntity1.setLocation("Pázmány Péter sétány, 1117 Budapest, Hungary");
         raceEntity1.setDistanceKm(42.195);
         raceEntity1.setDate(LocalDate.of(2024,10,10));
 
         raceRepository.save(raceEntity1);
 
         RaceEntity raceEntity2 = new RaceEntity();
-        raceEntity2.setName("Vienna Half Marathon");
+        raceEntity2.setRaceName("Vienna Half Marathon");
+        raceEntity2.setLocation("Marx Halle, Karl-Farkas-Gasse 19, 1030 Vienna, Austria");
         raceEntity2.setDistanceKm(21.0975);
         raceEntity2.setDate(LocalDate.of(2024,9,15));
 

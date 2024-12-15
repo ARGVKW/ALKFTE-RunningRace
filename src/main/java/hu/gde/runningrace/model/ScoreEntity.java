@@ -1,4 +1,4 @@
-package hu.gde.runningrace;
+package hu.gde.runningrace.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -21,35 +21,35 @@ public class ScoreEntity {
     @JoinColumn(nullable = true)
     private RaceEntity race;
 
-    long getScoreId() {
+    public long getScoreId() {
         return this.scoreId;
     }
 
-    void setScoreId(long scoreId) {
+    public void setScoreId(long scoreId) {
         this.scoreId = scoreId;
     }
 
-    long getTimeMinutes() {
+    public long getTimeMinutes() {
         return this.timeMinutes;
     }
 
-    void setTimeMinutes(long time) {
+    public void setTimeMinutes(long time) {
         this.timeMinutes = time;
     }
 
-    RunnerEntity getRunner() {
+    public RunnerEntity getRunner() {
         return this.runner;
     }
 
-    void setRunner(RunnerEntity runner) {
+    public void setRunner(RunnerEntity runner) {
         this.runner = runner;
     }
 
-    RaceEntity getRace() {
+    public RaceEntity getRace() {
         return this.race;
     }
 
-    void setRace(RaceEntity race) {
+    public void setRace(RaceEntity race) {
         this.race = race;
     }
 }

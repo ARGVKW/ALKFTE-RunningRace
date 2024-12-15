@@ -1,4 +1,4 @@
-package hu.gde.runningrace;
+package hu.gde.runningrace.model;
 
 import jakarta.persistence.*;
 

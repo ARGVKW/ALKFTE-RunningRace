@@ -1,5 +1,8 @@
-package hu.gde.runningrace;
+package hu.gde.runningrace.controller;
 
+import hu.gde.runningrace.repository.RaceRepository;
+import hu.gde.runningrace.repository.ScoreRepository;
+import hu.gde.runningrace.model.RaceEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

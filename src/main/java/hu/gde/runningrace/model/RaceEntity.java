@@ -10,7 +10,7 @@ import java.util.List;
 public class RaceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long raceId;
+    private long id;
     private String raceName;
     private String location;
     private double distanceKm;
@@ -23,12 +23,12 @@ public class RaceEntity {
     public RaceEntity() {
     }
 
-    public long getRaceId() {
-        return this.raceId;
+    public long getId() {
+        return this.id;
     }
 
-    public void setRaceId(long raceId) {
-        this.raceId = raceId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getRaceName() {

@@ -1,5 +1,7 @@
 package hu.gde.runningrace.controller;
 
+import hu.gde.runningrace.model.RunnerEntity;
+import hu.gde.runningrace.model.ScoreEntity;
 import hu.gde.runningrace.repository.RaceRepository;
 import hu.gde.runningrace.repository.ScoreRepository;
 import hu.gde.runningrace.model.RaceEntity;
@@ -45,5 +47,21 @@ public class RaceController {
             return "redirect:/races/addrace";
         }
         return "redirect:/races";
+    }
+
+    @GetMapping("/race/{id}")
+    public String getRaceById(@PathVariable Long id, Model model) {
+        RaceEntity race = raceRepository.findById(id).orElse(null);
+        List<ScoreEntity> scores = scoreRepository.findAllByRaceId(id).stream().toList();
+        double averageTime = scores.stream().mapToDouble(ScoreEntity::getTimeMinutes).average().orElse(0);
+        if (race != null) {
+            model.addAttribute("race", race);
+            model.addAttribute("scores", scores);
+            model.addAttribute("averageTime", averageTime);
+            return "race";
+        } else {
+            // handle error when runner is not found
+            return "error";
+        }
     }
 }

@@ -20,14 +20,15 @@
         </thead>
         <tbody>
         <tr th:each="race : ${races}">
-            <td th:text="${race.raceId}"></td>
+            <td th:text="${race.id}"></td>
             <td th:text="${race.raceName}"></td>
             <td th:text="${race.location}"></td>
             <td th:text="${race.distanceKm}"></td>
-            <td></td>
+            <td><a th:href="@{/race/{id}(id=${race.id})}" class="btn btn-outline-dark btn-sm">Details</a></td>
         </tr>
         </tbody>
     </table>
+    <a href="/" class="btn btn-secondary">Back to Home</a>
 </div>
 </body>
 </html>

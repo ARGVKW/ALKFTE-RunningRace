@@ -9,7 +9,7 @@
     <h1>Create new Running Race Event</h1>
     <hr>
     <form th:action="@{/races/createrace}" th:object="${race}" method="post">
-        <input type="hidden" th:field="*{raceId}"/>
+        <input type="hidden" th:field="*{id}"/>
         <div class="form-group">
             <label for="raceName">Name of Event:</label>
             <input type="text" id="raceName" th:field="*{raceName}" class="form-control"/>

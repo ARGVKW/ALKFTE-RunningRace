@@ -8,7 +8,7 @@ import java.util.List;
 public class RunnerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long runnerId;
+    private long id;
     private String runnerName;
     private int age;
     private String gender;
@@ -20,12 +20,12 @@ public class RunnerEntity {
     public RunnerEntity() {
     }
 
-    public long getRunnerId() {
-        return this.runnerId;
+    public long getId() {
+        return this.id;
     }
 
-    public void setRunnerId(long runnerId) {
-        this.runnerId = runnerId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getRunnerName() {

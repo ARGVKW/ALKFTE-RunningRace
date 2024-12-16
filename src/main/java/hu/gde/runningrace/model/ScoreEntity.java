@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class ScoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long scoreId;
+    private long id;
     private long timeMinutes;
 
     @JsonIgnore
@@ -21,12 +21,12 @@ public class ScoreEntity {
     @JoinColumn(nullable = true)
     private RaceEntity race;
 
-    public long getScoreId() {
-        return this.scoreId;
+    public long getId() {
+        return this.id;
     }
 
-    public void setScoreId(long scoreId) {
-        this.scoreId = scoreId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getTimeMinutes() {

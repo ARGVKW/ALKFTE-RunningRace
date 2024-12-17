@@ -1,6 +1,5 @@
 package hu.gde.runningrace.controller;
 
-import hu.gde.runningrace.model.RunnerEntity;
 import hu.gde.runningrace.model.ScoreEntity;
 import hu.gde.runningrace.repository.RaceRepository;
 import hu.gde.runningrace.repository.ScoreRepository;

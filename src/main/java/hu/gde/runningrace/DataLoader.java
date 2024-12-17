@@ -32,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
         raceEntity1.setRaceName("Budapest Marathon");
         raceEntity1.setLocation("Pázmány Péter sétány, 1117 Budapest, Hungary");
         raceEntity1.setDistanceKm(42.195);
-        raceEntity1.setDate(LocalDate.of(2024,10,10));
+        raceEntity1.setRaceDate(LocalDate.of(2024,10,10));
 
         raceRepository.save(raceEntity1);
 
@@ -40,7 +40,7 @@ public class DataLoader implements CommandLineRunner {
         raceEntity2.setRaceName("Vienna Half Marathon");
         raceEntity2.setLocation("Marx Halle, Karl-Farkas-Gasse 19, 1030 Vienna, Austria");
         raceEntity2.setDistanceKm(21.0975);
-        raceEntity2.setDate(LocalDate.of(2024,9,15));
+        raceEntity2.setRaceDate(LocalDate.of(2024,9,15));
 
         raceRepository.save(raceEntity2);
 
@@ -56,12 +56,12 @@ public class DataLoader implements CommandLineRunner {
         ScoreEntity scoreEntity1 = new ScoreEntity();
         scoreEntity1.setRunner(runnerEntity1);
         scoreEntity1.setRace(raceEntity1);
-        scoreEntity1.setTimeMinutes(213);
+        scoreEntity1.setTimeMinutes(213.0);
 
         ScoreEntity scoreEntity2 = new ScoreEntity();
         scoreEntity2.setRunner(runnerEntity1);
         scoreEntity2.setRace(raceEntity2);
-        scoreEntity2.setTimeMinutes(100);
+        scoreEntity2.setTimeMinutes(100.0);
 
         // Add score entities to the runner entity
         runnerEntity1.getScores().add(scoreEntity1);
@@ -87,12 +87,12 @@ public class DataLoader implements CommandLineRunner {
         ScoreEntity scoreEntity3 = new ScoreEntity();
         scoreEntity3.setRunner(runnerEntity2);
         scoreEntity3.setRace(raceEntity1);
-        scoreEntity3.setTimeMinutes(230);
+        scoreEntity3.setTimeMinutes(230.0);
 
         ScoreEntity scoreEntity4 = new ScoreEntity();
         scoreEntity4.setRunner(runnerEntity2);
         scoreEntity4.setRace(raceEntity2);
-        scoreEntity4.setTimeMinutes(105);
+        scoreEntity4.setTimeMinutes(105.0);
 
         // Add score entities to the runner entity
         runnerEntity2.getScores().add(scoreEntity3);
@@ -118,7 +118,7 @@ public class DataLoader implements CommandLineRunner {
         ScoreEntity scoreEntity5 = new ScoreEntity();
         scoreEntity5.setRunner(runnerEntity3);
         scoreEntity5.setRace(raceEntity1);
-        scoreEntity5.setTimeMinutes(200);
+        scoreEntity5.setTimeMinutes(200.0);
 
         // Add score entities to the runner entity
         runnerEntity3.getScores().add(scoreEntity5);
@@ -141,7 +141,7 @@ public class DataLoader implements CommandLineRunner {
         ScoreEntity scoreEntity6 = new ScoreEntity();
         scoreEntity6.setRunner(runnerEntity4);
         scoreEntity6.setRace(raceEntity1);
-        scoreEntity6.setTimeMinutes(233);
+        scoreEntity6.setTimeMinutes(233.0);
 
         // Add score entities to the runner entity
         runnerEntity4.getScores().add(scoreEntity6);
@@ -164,7 +164,7 @@ public class DataLoader implements CommandLineRunner {
         ScoreEntity scoreEntity7 = new ScoreEntity();
         scoreEntity7.setRunner(runnerEntity5);
         scoreEntity7.setRace(raceEntity2);
-        scoreEntity7.setTimeMinutes(145);
+        scoreEntity7.setTimeMinutes(145.0);
 
         // Add score entities to the runner entity
         runnerEntity5.getScores().add(scoreEntity7);
@@ -187,7 +187,7 @@ public class DataLoader implements CommandLineRunner {
         ScoreEntity scoreEntity8 = new ScoreEntity();
         scoreEntity8.setRunner(runnerEntity6);
         scoreEntity8.setRace(raceEntity2);
-        scoreEntity8.setTimeMinutes(163);
+        scoreEntity8.setTimeMinutes(163.0);
 
         // Add score entities to the runner entity
         runnerEntity6.getScores().add(scoreEntity8);

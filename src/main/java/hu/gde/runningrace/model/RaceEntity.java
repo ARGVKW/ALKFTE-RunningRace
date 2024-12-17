@@ -14,7 +14,7 @@ public class RaceEntity {
     private String raceName;
     private String location;
     private double distanceKm;
-    private LocalDate date;
+    private LocalDate raceDate;
 
     @OneToMany(mappedBy = "race", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScoreEntity> scores = new ArrayList<>();
@@ -55,12 +55,12 @@ public class RaceEntity {
         this.distanceKm = distance;
     }
 
-    public LocalDate getDate() {
-        return this.date;
+    public LocalDate getRaceDate() {
+        return this.raceDate;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setRaceDate(LocalDate date) {
+        this.raceDate = date;
     }
 
     public List<ScoreEntity> getScores() {

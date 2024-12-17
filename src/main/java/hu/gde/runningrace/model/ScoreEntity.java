@@ -9,7 +9,7 @@ public class ScoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    private long timeMinutes;
+    private Double timeMinutes;
 
     @JsonIgnore
     @ManyToOne
@@ -29,11 +29,11 @@ public class ScoreEntity {
         this.id = id;
     }
 
-    public long getTimeMinutes() {
+    public Double getTimeMinutes() {
         return this.timeMinutes;
     }
 
-    public void setTimeMinutes(long time) {
+    public void setTimeMinutes(Double time) {
         this.timeMinutes = time;
     }
 

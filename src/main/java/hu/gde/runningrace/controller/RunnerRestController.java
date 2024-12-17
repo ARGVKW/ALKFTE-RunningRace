@@ -3,6 +3,7 @@ package hu.gde.runningrace.controller;
 import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.model.RunnerEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,15 @@ public class RunnerRestController {
     @GetMapping("/{id}")
     public RunnerEntity getRunner(@PathVariable Long id) {
         return runnerRepository.findById(id).orElse(null);
+    }
+
+    @PostMapping("addrunner")
+    public ResponseEntity<String> addRunner(@RequestBody RunnerEntity runner) {
+        if (runner == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        runnerRepository.save(runner);
+        return ResponseEntity.ok().build();
     }
 
 }

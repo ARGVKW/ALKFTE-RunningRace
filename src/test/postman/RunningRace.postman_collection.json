@@ -28,11 +28,11 @@
 							"});\r",
 							"\r",
 							"\r",
-							"pm.test(\"Id is a non-negative integer\", function () {\r",
+							"pm.test(\"RunnerId is a non-negative integer\", function () {\r",
 							"    const responseData = pm.response.json();\r",
 							"    \r",
-							"    pm.expect(responseData.id).to.be.a('number');\r",
-							"    pm.expect(responseData.id).to.be.at.least(0, \"Id should be a non-negative integer\");\r",
+							"    pm.expect(responseData.runnerId).to.be.a('number');\r",
+							"    pm.expect(responseData.runnerId).to.be.at.least(0, \"RunnerId should be a non-negative integer\");\r",
 							"});\r",
 							"\r",
 							"\r",
@@ -95,7 +95,7 @@
 							"\r",
 							"    pm.expect(responseData).to.be.an('array');\r",
 							"    responseData.forEach(function(runner) {\r",
-							"        pm.expect(runner.id).to.exist;\r",
+							"        pm.expect(runner.runnerId).to.exist;\r",
 							"        pm.expect(runner.runnerName).to.exist;\r",
 							"        pm.expect(runner.age).to.exist;\r",
 							"        pm.expect(runner.gender).to.exist;\r",
@@ -196,6 +196,314 @@
 						"v1",
 						"race",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all races",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Validate the response schema for race details\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array').that.is.not.empty;\r",
+							"\r",
+							"    responseData.forEach(function(race) {\r",
+							"        pm.expect(race).to.be.an('object');\r",
+							"        pm.expect(race).to.have.property('raceId').that.is.a('number');\r",
+							"        pm.expect(race).to.have.property('raceName').that.is.a('string');\r",
+							"        pm.expect(race).to.have.property('location').that.is.a('string');\r",
+							"        pm.expect(race).to.have.property('distanceKm').that.is.a('number');\r",
+							"        pm.expect(race).to.have.property('date').that.is.a('string');\r",
+							"        pm.expect(race).to.have.property('scores').that.is.an('array');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test.skip(\"Scores array is present and contains expected number of elements\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    pm.expect(responseData).to.have.lengthOf.at.least(1, \"Array should not be empty\");\r",
+							"    responseData.forEach(function (race) {\r",
+							"        pm.expect(race.scores).to.exist.and.to.be.an('array');\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/race",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"race"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get race runners",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - runnerName and timeMinutes\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array');\r",
+							"    responseData.forEach(function(runner) {\r",
+							"        pm.expect(runner).to.have.property('runnerName').that.is.a('string');\r",
+							"        pm.expect(runner).to.have.property('timeMinutes').that.is.a('number');\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Runner name is a non-empty string\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  responseData.forEach(function(runner) {\r",
+							"    pm.expect(runner.runnerName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Runner name should not be empty\");\r",
+							"  });\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Time in minutes is a non-negative integer\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  responseData.forEach(function(runner) {\r",
+							"    pm.expect(runner.timeMinutes).to.be.a('number').and.to.be.at.least(0, \"Time in minutes should be a non-negative integer\");\r",
+							"  });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/race/1/runners",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"race",
+						"1",
+						"runners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get race average time",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response time is less than 200ms\", function () {\r",
+							"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required Content-Type header\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response body is in JSON format\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/race/1/average",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"race",
+						"1",
+						"average"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update race by JSON payload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"raceId\": 1,\r\n    \"raceName\": \"Race Test\",\r\n    \"raceLocation\": \"Test Race Location\",\r\n    \"raceDistance\": 128.99,\r\n    \"raceDate\": \"2025-03-03\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/race/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"race",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add result",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"raceId\": 1,\r\n    \"runnerId\": 1,\r\n    \"timeMinutes\": 189\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/race/addresult",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"race",
+						"addresult"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add runner",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"runnerName\": \"Blade Runner\",\r\n    \"age\": 65,\r\n    \"gender\": \"male\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/runner/addrunner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"runner",
+						"addrunner"
 					]
 				}
 			},

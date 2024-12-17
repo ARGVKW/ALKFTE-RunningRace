@@ -3,6 +3,7 @@ package hu.gde.runningrace.controller;
 import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.model.RunnerEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +33,10 @@ public class RunnerRestController {
     public ResponseEntity<String> addRunner(@RequestBody RunnerEntity runner) {
         if (runner == null) {
             return ResponseEntity.badRequest().build();
+        }
+        boolean nameExists = runnerRepository.existsByRunnerName(runner.getRunnerName());
+        if (nameExists) {
+            return ResponseEntity.badRequest().body("Another runner with the name " + runner.getRunnerName() + " already exists");
         }
         runnerRepository.save(runner);
         return ResponseEntity.ok().build();

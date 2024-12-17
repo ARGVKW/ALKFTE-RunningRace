@@ -1,6 +1,7 @@
 package hu.gde.runningrace.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +10,13 @@ public class RunnerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @NotBlank(message = "Name is mandatory")
     private String runnerName;
+
+    @Min(value = 18, message = "Runner's age must be at least 18")
     private int age;
+
     private String gender;
 
     @OneToMany(mappedBy = "runner", cascade = CascadeType.ALL, orphanRemoval = true)

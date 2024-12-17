@@ -2,6 +2,7 @@ package hu.gde.runningrace.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "score")
@@ -9,6 +10,9 @@ public class ScoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    
+    @NotNull(message = "Time is mandatory")
+    @Positive(message = "Time must be positive")
     private Double timeMinutes;
 
     @JsonIgnore

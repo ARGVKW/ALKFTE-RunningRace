@@ -1,16 +1,19 @@
 package hu.gde.runningrace.controller;
 
+import hu.gde.runningrace.model.RunnerEntity;
 import hu.gde.runningrace.model.ScoreEntity;
 import hu.gde.runningrace.repository.RaceRepository;
+import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.repository.ScoreRepository;
 import hu.gde.runningrace.model.RaceEntity;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,8 +21,12 @@ import java.util.List;
 public class RaceController {
     @Autowired
     private RaceRepository raceRepository;
+
     @Autowired
     private ScoreRepository scoreRepository;
+
+    @Autowired
+    private RunnerRepository runnerRepository;
 
     @GetMapping("/races")
     public String getAllRaces(Model model) {
@@ -35,17 +42,45 @@ public class RaceController {
         return "addrace";
     }
 
-    @PostMapping("/races/createrace")
-    public String addRace(@ModelAttribute RaceEntity race, Model model) {
-        boolean nameExists = raceRepository.existsByRaceName(race.getRaceName());
-        if (!nameExists) {
-            raceRepository.save(race);
-        } else {
-            // handle error when race with the same name already exists
-            model.addAttribute("error", "Another race with the same name already exists");
-            return "redirect:/races/addrace";
+    @PostMapping("/races/addrace")
+    public String addRace(@Valid @ModelAttribute("race") RaceEntity race, BindingResult binding, Model model) {
+        if (binding.hasErrors()) {
+            return "addrace";
         }
+        boolean nameExists = raceRepository.existsByRaceName(race.getRaceName());
+        if (nameExists) {
+            model.addAttribute("error", "Another race with the same name already exists");
+            return "addrace";
+        }
+        raceRepository.save(race);
         return "redirect:/races";
+    }
+
+    @PostMapping("/race/{raceId}/{runnerId}/addresult")
+    public String addResult(
+            @PathVariable Long raceId,
+            @PathVariable Long runnerId,
+            @Valid @ModelAttribute("score") ScoreEntity score,
+            BindingResult binding,
+            Model model
+    ) {
+        if (binding.hasErrors()) {
+            return "addresult";
+        }
+        RaceEntity race = raceRepository.findById(raceId).orElse(null);
+        RunnerEntity runner = runnerRepository.findById(runnerId).orElse(null);
+        if (race != null && runner != null) {
+            score.setRace(race);
+            score.setRunner(runner);
+            score.setTimeMinutes(score.getTimeMinutes());
+            scoreRepository.save(score);
+            return "redirect:/races";
+        } else if (race == null) {
+            model.addAttribute("error", "Race with ID " + raceId + " not found");
+            return "addresult";
+        }
+        model.addAttribute("error", "Runner with ID " + raceId + " not found");
+        return "addresult";
     }
 
     @GetMapping("/race/{id}")

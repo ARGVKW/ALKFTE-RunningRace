@@ -1,6 +1,7 @@
 package hu.gde.runningrace.controller;
 
 import com.google.gson.Gson;
+import hu.gde.runningrace.model.api.RunnerBase;
 import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.model.RunnerEntity;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -23,7 +25,16 @@ public class RunnerRestController {
     }
 
     @GetMapping("")
-    public List<RunnerEntity> getAllRunners() {
+    public List<RunnerBase> getAllRunners() {
+        return runnerRepository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(RunnerEntity::getRunnerName))
+                .map(RunnerBase::new)
+                .toList();
+    }
+
+    @GetMapping("/detailedlist")
+    public List<RunnerEntity> getAllRunnersWithDetails() {
         return runnerRepository.findAll();
     }
 
@@ -48,5 +59,4 @@ public class RunnerRestController {
         runnerRepository.save(runner);
         return ResponseEntity.ok().build();
     }
-
 }

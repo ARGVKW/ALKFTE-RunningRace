@@ -33,21 +33,23 @@
             </tr>
             <tr th:if="${#lists.size(scores)}">
               <td colspan="2" class="bg-light">
-                <p class="h5 text-center">Results</p>
-                <table class="table">
-                  <thead>
-                  <tr>
-                    <th>Runner</th>
-                    <th align="right">Finish Time</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr th:each="score : ${scores}">
-                    <td th:text="${score.runner.runnerName}"></td>
-                    <td align="right" th:text="${score.timeMinutes} + ' minutes'"></td>
-                  </tr>
-                  </tbody>
-                </table>
+                <div style="max-height: calc(100vh - 430px); min-height: 160px; overflow: auto; scrollbar-width: thin">
+                  <p class="h5 text-center">Results</p>
+                  <table class="table">
+                    <thead style="position: sticky; top: 0">
+                    <tr>
+                      <th>Runner</th>
+                      <th class="text-end">Finish Time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="score : ${scores}">
+                      <td th:text="${score.runner.runnerName}"></td>
+                      <td class="text-end" th:text="${score.timeMinutes} + ' minutes'"></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
               </td>
             </tr>
             </tbody>

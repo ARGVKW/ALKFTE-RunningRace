@@ -6,27 +6,34 @@
 </head>
 <body>
 <div class="container">
-    <h1>Create new Running Race Event</h1>
-    <hr>
-    <form th:action="@{/races/createrace}" th:object="${race}" method="post">
-        <input type="hidden" th:field="*{id}"/>
-        <div class="form-group">
-            <label for="raceName">Name of Event:</label>
-            <input type="text" id="raceName" th:field="*{raceName}" class="form-control"/>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6">
+            <form th:action="@{/races/createrace}" th:object="${race}" method="post" class="card">
+                <div class="card-header bg-info text-white text-center">
+                    <h1>Create new Running Race Event</h1>
+                </div>
+                <div class="card-body">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="form-group">
+                            <label for="raceName">Name of Event:</label>
+                            <input type="text" id="raceName" th:field="*{raceName}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location of Event:</label>
+                            <input type="text" id="location" th:field="*{location}" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="distanceKm">Distance (km):</label>
+                            <input type="number" id="distanceKm" th:field="*{distanceKm}" class="form-control"/>
+                        </div>
+                        <span th:if="${error}" th:text="${error}" class="text-error"></span>
+                </div>
+                <div class="card-footer py-3 text-center">
+                    <a href="/races" class="btn btn-dark">Back to Races</a> <button type="submit" class="btn btn-success">Create Race</button>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="location">Location of Event:</label>
-            <input type="text" id="location" th:field="*{location}" class="form-control"/>
-        </div>
-
-        <div class="form-group">
-            <label for="distanceKm">Distance (km):</label>
-            <input type="number" id="distanceKm" th:field="*{distanceKm}" class="form-control"/>
-        </div>
-        <button type="submit" class="btn btn-success">Create Race</button>
-        <span th:if="${error}" th:text="${error}" class="text-error"></span>
-    </form>
+    </div>
 </div>
 </body>
 </html>

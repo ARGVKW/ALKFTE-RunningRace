@@ -1,12 +1,13 @@
 package hu.gde.runningrace.controller;
 
-import hu.gde.runningrace.model.RaceEntity;
 import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.repository.ScoreRepository;
 import hu.gde.runningrace.model.RunnerEntity;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,16 +36,17 @@ public class RunnerController {
         return "addrunner";
     }
 
-    @PostMapping("/runners/createrunner")
-    public String addRunner(@ModelAttribute RunnerEntity runner, Model model) {
+    @PostMapping("/runners/addrunner")
+    public String addRunner(@Valid @ModelAttribute("runner") RunnerEntity runner, BindingResult binding, Model model) {
         boolean nameExists = runnerRepository.existsByRunnerName(runner.getRunnerName());
-        if (!nameExists) {
-            runnerRepository.save(runner);
-        } else {
-            // handle error when race with the same name already exists
-            model.addAttribute("error", "Another runner with the same name already exists");
-            return "redirect:/runners/addrunner";
+        if (binding.hasErrors()) {
+            return "addrunner";
         }
+        if (nameExists) {
+            model.addAttribute("error", "Another runner with the same name already exists");
+            return "addrunner";
+        }
+        runnerRepository.save(runner);
         return "redirect:/runners";
     }
 }

@@ -12,7 +12,6 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>ID</th>
                 <th>Date</th>
                 <th>Name</th>
                 <th>Location</th>
@@ -22,7 +21,6 @@
             </thead>
             <tbody>
             <tr th:each="race : ${races}">
-                <td th:text="${race.id}"></td>
                 <td th:text="${race.raceDate}"></td>
                 <td th:text="${race.raceName}"></td>
                 <td th:text="${race.location}"></td>

@@ -1,10 +1,13 @@
 package hu.gde.runningrace.controller;
 
+import com.google.gson.Gson;
 import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.model.RunnerEntity;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +33,11 @@ public class RunnerRestController {
     }
 
     @PostMapping("addrunner")
-    public ResponseEntity<String> addRunner(@RequestBody RunnerEntity runner) {
+    public ResponseEntity<String> addRunner(@Valid @RequestBody RunnerEntity runner, BindingResult binding) {
+        if (binding.hasErrors()) {
+            Gson gson = new Gson();
+            return ResponseEntity.badRequest().body(gson.toJson(binding.getAllErrors()));
+        }
         if (runner == null) {
             return ResponseEntity.badRequest().build();
         }

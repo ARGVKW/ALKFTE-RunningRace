@@ -1,5 +1,6 @@
 package hu.gde.runningrace.controller;
 
+import com.google.gson.Gson;
 import hu.gde.runningrace.model.RunnerEntity;
 import hu.gde.runningrace.model.api.RunnerResult;
 import hu.gde.runningrace.model.ScoreEntity;
@@ -7,9 +8,11 @@ import hu.gde.runningrace.repository.RaceRepository;
 import hu.gde.runningrace.model.RaceEntity;
 import hu.gde.runningrace.repository.RunnerRepository;
 import hu.gde.runningrace.repository.ScoreRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -55,7 +58,11 @@ public class RaceRestController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<String> updateRace(@RequestBody RaceUpdateRequest payload) {
+    public ResponseEntity<String> updateRace(@Valid @RequestBody RaceUpdateRequest payload, BindingResult binding) {
+        if (binding.hasErrors()) {
+            Gson gson = new Gson();
+            return ResponseEntity.badRequest().body(gson.toJson(binding.getAllErrors()));
+        }
         RaceEntity race = raceRepository.findById(payload.raceId).orElse(null);
         if (race != null) {
             race.setRaceName(payload.raceName);
@@ -76,7 +83,11 @@ public class RaceRestController {
     }
 
     @PostMapping("/addresult")
-    public ResponseEntity<String> addResult(@RequestBody RaceAddResultRequest payload) {
+    public ResponseEntity<String> addResult(@RequestBody RaceAddResultRequest payload, BindingResult binding) {
+        if (binding.hasErrors()) {
+            Gson gson = new Gson();
+            return ResponseEntity.badRequest().body(gson.toJson(binding.getAllErrors()));
+        }
         RaceEntity race = raceRepository.findById(payload.raceId).orElse(null);
         RunnerEntity runner = runnerRepository.findById(payload.runnerId).orElse(null);
         ScoreEntity score = new ScoreEntity();

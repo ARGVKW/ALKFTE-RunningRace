@@ -1,7 +1,6 @@
 package hu.gde.runningrace.model.api;
 
 import hu.gde.runningrace.model.RunnerEntity;
-import hu.gde.runningrace.model.ScoreEntity;
 
 public class RunnerBase {
     private long id;

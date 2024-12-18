@@ -22,12 +22,12 @@
                         </div>
                         <div class="form-group">
                             <label for="age">Age:</label>
-                            <input type="text" id="age" th:field="*{age}" class="form-control"/>
+                            <input type="number" id="age" th:field="*{age}" class="form-control"/>
                             <small th:if="${#fields.hasErrors('age')}" th:errors="*{age}" class="text-danger"></small>
                         </div>
                         <div class="form-group">
                             <label for="gender">Gender:</label>
-                            <input type="number" id="gender" th:field="*{gender}" class="form-control"/>
+                            <input type="text" id="gender" th:field="*{gender}" class="form-control"/>
                             <small th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" class="text-danger"></small>
                         </div>
                 </div>

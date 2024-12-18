@@ -11,7 +11,7 @@ public class RunnerEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @NotBlank(message = "Name is mandatory")
+    @NotEmpty(message = "Name is mandatory")
     private String runnerName;
 
     @Min(value = 18, message = "Runner's age must be at least 18")
